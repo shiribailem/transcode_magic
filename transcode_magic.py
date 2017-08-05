@@ -13,6 +13,7 @@ parser.add_argument('filename', nargs=1)
 parser.add_argument('-n', '--no-copy', action='store_true')
 parser.add_argument('-i', '--in-place', action='store_true')
 parser.add_argument('-v', '--verbose', action='count')
+parser.add_argument('-q', '--quiet', action='store_true')
 parser.add_argument('-l', '--log', action='store')
 parser.add_argument('-f', '--force-video', action='store_true')
 parser.add_argument('-a', '--force-audio', action='store_true')
@@ -39,6 +40,10 @@ media_info = MediaInfo.parse(full_filename)
 
 # Preload basic command start for ffmpeg (later passed to subprocess.call)
 command = ['/bin/nice', '-n' , '19', '/bin/ffmpeg', '-i', full_filename]
+
+# If quiet is specified, pass flags to tell ffmpeg to not produce output.
+if args.quiet:
+    command.extend(['-hide_banner','-loglevel','quiet'])
 
 # If debug is used, it will dump the mediainfo data to a pickle file and stop.
 if args.debug:
