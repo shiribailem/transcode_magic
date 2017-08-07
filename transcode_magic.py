@@ -39,7 +39,7 @@ if verbose > 0:
 media_info = MediaInfo.parse(full_filename)
 
 # Preload basic command start for ffmpeg (later passed to subprocess.call)
-command = ['/bin/nice', '-n' , '19', '/bin/ffmpeg', '-i', full_filename]
+command = ['/bin/nice', '-n' , '19', 'ionice', '-c3', '/bin/ffmpeg', '-i', full_filename]
 
 # If quiet is specified, pass flags to tell ffmpeg to not produce output.
 if args.quiet:
