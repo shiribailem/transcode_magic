@@ -113,7 +113,7 @@ if output_filename is None:
     if os.path.exists(filename):
         filename = filename[:-4] + '-new.mkv'
         if os.path.exists(filename):
-	        if verbose > 0:
+            if verbose > 0:
                 print("File already exists with -new modifier. Check for duplicate work and rename!")
             exit(0)
 else:
