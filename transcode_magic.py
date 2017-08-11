@@ -26,6 +26,7 @@ args = parser.parse_args()
 verbose = args.verbose
 force_video = args.force_video
 force_audio = args.force_audio
+output_file = args.output
 
 # Cache the full file and path for later (and easy reference)
 full_filename = args.filename[0]
@@ -94,26 +95,29 @@ if args.no_copy and straight_copy:
         print("No transcoding needed. Exiting.")
     exit(0)
 
-orig_filename = filename
+if output_filename is None:
+    orig_filename = filename
 
-# Sloppy swapping of file extensions.
-# Todo: clean up file extension swaps
-if filename[-4:].lower() != '.mkv':
-    filename = filename[:-4] + '.mkv'
+    # Sloppy swapping of file extensions.
+    # Todo: clean up file extension swaps
+    if filename[-4:].lower() != '.mkv':
+        filename = filename[:-4] + '.mkv'
 
-# In place used for batch runs via find, so that bulk files can be transcoded.
-# Instead of copying to current directory, puts files in the source directory.
-if args.in_place:
-    filename = os.path.split(full_filename)[0] + '/' + filename
+    # In place used for batch runs via find, so that bulk files can be transcoded.
+    # Instead of copying to current directory, puts files in the source directory.
+    if args.in_place:
+        filename = os.path.split(full_filename)[0] + '/' + filename
 
-# Some basic effort to avoid name collisions. Primarily there to avoid trouble
-# if using in-place and the original is already in mkv format.
-if os.path.exists(filename):
-    filename = filename[:-4] + '-new.mkv'
+    # Some basic effort to avoid name collisions. Primarily there to avoid trouble
+    # if using in-place and the original is already in mkv format.
     if os.path.exists(filename):
-        if verbose > 0:
-            print("File already exists with -new modifier. Check for duplicate work and rename!")
-        exit(0)
+        filename = filename[:-4] + '-new.mkv'
+        if os.path.exists(filename):
+	        if verbose > 0:
+                print("File already exists with -new modifier. Check for duplicate work and rename!")
+            exit(0)
+else:
+    filename = output_filename
 
 # Strip excess metadata. See ffmpeg docs.
 command.extend(['-map_metadata', '-1', filename]) 
