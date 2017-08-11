@@ -9,15 +9,16 @@ import pickle
 
 # Todo: add descriptions to arguments
 parser = argparse.ArgumentParser(description='Automatically transcode files into h.264 with aac audio')
-parser.add_argument('filename', nargs=1)
-parser.add_argument('-n', '--no-copy', action='store_true')
-parser.add_argument('-i', '--in-place', action='store_true')
-parser.add_argument('-v', '--verbose', action='count')
-parser.add_argument('-q', '--quiet', action='store_true')
-parser.add_argument('-l', '--log', action='store')
-parser.add_argument('-f', '--force-video', action='store_true')
-parser.add_argument('-a', '--force-audio', action='store_true')
-parser.add_argument('-d', '--debug', action='store')
+parser.add_argument('filename', nargs=1, help="Filename to process")
+parser.add_argument('output',nargs='?', default=None, help="Optional output filename")
+parser.add_argument('-n', '--no-copy', action='store_true', help="Do not remux if already in correct formats")
+parser.add_argument('-i', '--in-place', action='store_true', help="Use the directory of the original as the destination")
+parser.add_argument('-v', '--verbose', action='count', help="Verbosity")
+parser.add_argument('-q', '--quiet', action='store_true', help="Quiets output from ffmpeg")
+parser.add_argument('-l', '--log', action='store', help="Places some status information in specified logfile")
+parser.add_argument('-f', '--force-video', action='store_true', help="Force video to be transcoded")
+parser.add_argument('-a', '--force-audio', action='store_true', help="Force audio to be transcoded")
+parser.add_argument('-d', '--debug', action='store', help="Dump pickled libmediainfo output to specified file and exit")
 
 args = parser.parse_args()
 
