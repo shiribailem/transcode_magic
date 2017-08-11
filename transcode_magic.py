@@ -95,7 +95,7 @@ if args.no_copy and straight_copy:
         print("No transcoding needed. Exiting.")
     exit(0)
 
-if output_filename is None:
+if output_file is None:
     orig_filename = filename
 
     # Sloppy swapping of file extensions.
@@ -117,7 +117,7 @@ if output_filename is None:
                 print("File already exists with -new modifier. Check for duplicate work and rename!")
             exit(0)
 else:
-    filename = output_filename
+    filename = output_file
 
 # Strip excess metadata. See ffmpeg docs.
 command.extend(['-map_metadata', '-1', filename]) 
