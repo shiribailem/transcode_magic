@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python
 
 from pymediainfo import MediaInfo
 from subprocess import call
