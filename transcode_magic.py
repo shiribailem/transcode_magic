@@ -43,9 +43,7 @@ media_info = MediaInfo.parse(full_filename)
 # Preload basic command start for ffmpeg (later passed to subprocess.call)
 # Command automatically includes nice and ionice to deprioritize process,
 # avoiding IO lag for other processes.
-# Automatically include de-interlacing flags to ffmpeg to autodetect(?) 
-# deinterlacing.
-command = ['/bin/nice', '-n' , '19', 'ionice', '-c3', '/bin/ffmpeg', '-i', full_filename, '-vf', 'yadif']
+command = ['/bin/nice', '-n' , '19', 'ionice', '-c3', '/bin/ffmpeg', '-i', full_filename]
 
 # If quiet is specified, pass flags to tell ffmpeg to not produce output.
 if args.quiet:
@@ -61,6 +59,7 @@ if args.debug:
 # format. This way we can exit if user doesn't want to bother copying when
 # already in the correct format.
 straight_copy = True
+video_copy = True
 
 # Iterate over each track, adding the appropriate copy/transcode commands based
 # on content.
@@ -75,6 +74,7 @@ for track in media_info.tracks:
             command.append('copy')
         else:
             straight_copy = False
+            video_copy = False
             command.extend(['libx264', '-crf', '18', '-tune', 'film', '-preset', 'veryfast'])
 
     elif track.track_type == 'Audio':
@@ -98,6 +98,10 @@ if args.no_copy and straight_copy:
     if verbose > 0:
         print("No transcoding needed. Exiting.")
     exit(0)
+
+if not video_copy:
+    # If video is being processed, automatically attempt to deinterlace.
+    command.extend(['-vf', 'yadif'])
 
 if output_file is None:
     orig_filename = filename
