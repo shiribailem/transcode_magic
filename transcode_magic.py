@@ -45,7 +45,7 @@ media_info = MediaInfo.parse(full_filename)
 # avoiding IO lag for other processes.
 # Automatically include de-interlacing flags to ffmpeg to autodetect(?) 
 # deinterlacing.
-command = ['/bin/nice', '-n' , '19', 'ionice', '-c3', '/bin/ffmpeg', '-v', 'yadif', '-i', full_filename]
+command = ['/bin/nice', '-n' , '19', 'ionice', '-c3', '/bin/ffmpeg', '-vf', 'yadif', '-i', full_filename]
 
 # If quiet is specified, pass flags to tell ffmpeg to not produce output.
 if args.quiet:
