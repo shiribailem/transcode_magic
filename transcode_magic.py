@@ -117,6 +117,7 @@ if output_file is None:
                 print("File already exists with -new modifier. Check for duplicate work and rename!")
             exit(0)
 else:
+    orig_filename = filename
     filename = output_file
 
 # Strip excess metadata. See ffmpeg docs.
