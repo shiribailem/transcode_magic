@@ -43,7 +43,7 @@ media_info = MediaInfo.parse(full_filename)
 # Preload basic command start for ffmpeg (later passed to subprocess.call)
 # Command automatically includes nice and ionice to deprioritize process,
 # avoiding IO lag for other processes.
-command = ['/bin/nice', '-n' , '19', 'ionice', '-c3', '/bin/ffmpeg', '-i', full_filename]
+command = ['/bin/nice', '-n' , '19', 'ionice', '-c3', '/bin/ffmpeg', '-i', full_filename, '-map', '0']
 
 # If quiet is specified, pass flags to tell ffmpeg to not produce output.
 if args.quiet:
