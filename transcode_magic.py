@@ -129,7 +129,7 @@ else:
     filename = output_file
 
 # Strip excess metadata. See ffmpeg docs.
-command.extend(['-map_metadata', '-1', filename]) 
+command.extend(['-map_metadata', '-0:g', '-map_chapters', '0', filename]) 
 
 # Print out command passed to call.
 if verbose > 2:
