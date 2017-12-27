@@ -128,7 +128,9 @@ else:
     orig_filename = filename
     filename = output_file
 
-# Strip excess metadata. See ffmpeg docs.
+# Strip global metadata (get rid of any junk titles or such)
+# Keep chapters, and keep metadata for streams (such as foreign language
+# subtitles flag and other language flags)
 command.extend(['-map_metadata', '-0:g', '-map_chapters', '0', filename]) 
 
 # Print out command passed to call.
